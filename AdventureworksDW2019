@@ -19,3 +19,81 @@ SELECT EmployeeKey,
         BaseRate*SickLeaveHours AS SickLeavePay, 
         (BaseRate*VacationHours) + (BaseRate*SickLeaveHours) AS TotalLeavePay  
 FROM dbo.DimEmployee 
+
+/* Ex2: Từ bộ AdventureworksDW2019, bảng FactInternetSales,  
+Lấy ra SalesOrderNumber, ProductKey, OrderDate 
+
+Sau đó lấy ra thêm các cột như sau:  
+a. Cột TotalRevenue được lấy ra từ: OrderQuantity * UnitPrice  
+b. Cột TotalCost được lấy ra từ: ProductStandardCost + DiscountAmount 
+c. Cột Profit được lấy ra từ: TotalRevenue - TotalCost  
+d. Cột Profit Margin được lấy ra từ: (TotalRevenue - TotalCost)/TotalRevenue * 100 
+*/  
+
+SELECT SalesOrderNumber 
+        ,ProductKey 
+        ,OrderDate 
+        ,OrderQuantity*UnitPrice AS TotalRevenue 
+        ,ProductStandardCost + DiscountAmount AS TotalCost 
+        ,(OrderQuantity*UnitPrice)-(ProductStandardCost + DiscountAmount) AS Profit 
+        ,((OrderQuantity*UnitPrice)-(ProductStandardCost + DiscountAmount))/(OrderQuantity*UnitPrice) *100 AS ProfitMargin 
+FROM dbo.FactInternetSales 
+
+
+/* Ex3: Từ bộ AdventureworksDW2019, bảng FactProductInventory,  
+
+Lấy ra các cột như sau:  
+a. Cột NoProductEOD lấy ra từ UnitsBalance + UnitsIn - UnitsOut  
+b. Cột TotalCost lấy ra từ: NoProductEOD * UnitCost  
+*/  
+
+SELECT (UnitsBalance + UnitsIn - UnitsOut) as NoProductEOD, 
+        (UnitsBalance + UnitsIn - UnitsOut)*(UnitCost) as TotalCost 
+FROM dbo.FactProductInventory  
+
+
+/* Ex4: Từ bộ AdventureworksDW2019, bảng DimGeography, lấy ra EnglishCountryRegionName, City, StateProvinceName.  
+
+Loại bỏ các dòng trùng lặp và sắp xếp bảng kết quả theo thứ tự tăng dần của Country và những dòng có cùng giá trị Country thì sắp xếp thêm theo thứ tự giảm dần của City */ 
+
+ 
+
+select  distinct EnglishCountryRegionName, 
+
+        City, 
+
+        StateProvinceName 
+
+from dbo.DimGeography 
+
+order by EnglishCountryRegionName asc, city desc  
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+/* Ex5: Từ bộ AdventureworksDW2019, bảng DimProduct,  
+
+lấy ra EnglishProductName của top 10% các sản phẩm có mức ListPrice cao nhất  
+
+*/  
+
+ 
+
+select top 10 percent ListPrice, 
+
+                      EnglishProductName 
+
+from dbo.DimProduct 
+
+order by ListPrice desc 
