@@ -1,0 +1,21 @@
+/* Ex1: Từ bộ AdventureworksDW2019, bảng DimEmployee,  
+Lấy ra EmployeeKey, FirstName, LastName, BaseRate, VacationHours, SickLeaveHours 
+
+Sau đó lấy ra thêm các cột như sau:  
+a. Cột FullName  được lấy ra từ: FirstName + ' ' + LastName 
+b. Cột VacationLeavePay được lấy ra từ: BaseRate * VacationHours 
+c. Cột SickLeavePay được lấy ra từ: BaseRate * SickLeaveHours  
+d.  Cột TotalLeavePay được lấy ra từ VacationLeavePay + SickLeavePay  
+*/  
+
+SELECT EmployeeKey, 
+        FirstName, 
+        LastName, 
+        BaseRate, 
+        VacationHours, 
+        SickLeaveHours, 
+        FirstName + ' ' + LastName AS FullName, 
+        BaseRate*VacationHours AS VacationLeavePay, 
+        BaseRate*SickLeaveHours AS SickLeavePay, 
+        (BaseRate*VacationHours) + (BaseRate*SickLeaveHours) AS TotalLeavePay  
+FROM dbo.DimEmployee 
